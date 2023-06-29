@@ -3,6 +3,24 @@ const { hash, compare } = require('bcryptjs');
 const AppError = require('../utils/AppError');
 
 class UsersController {
+  async index(req, res) {
+    const { name, email } = req.query;
+
+    const query = knex('users');
+
+    if (name) {
+      query.whereLike('name', `%${name}%`);
+    }
+
+    if (email) {
+      query.whereLike('email', `%${email}%`);
+    }
+
+    const users = await query;
+
+    res.json(users);
+  }
+
   async show(req, res) {
     const { id } = req.params;
 
