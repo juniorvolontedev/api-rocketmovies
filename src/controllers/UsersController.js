@@ -3,6 +3,14 @@ const { hash, compare } = require('bcryptjs');
 const AppError = require('../utils/AppError');
 
 class UsersController {
+  async show(req, res) {
+    const { id } = req.params;
+
+    const user = await knex('users').where({ id }).first();
+
+    res.json(user);
+  }
+
   async create(req, res) {
     const { name, email, password } = req.body;
 
